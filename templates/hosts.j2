@@ -1,0 +1,21 @@
+# {{ ansible_managed }}
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+# controller
+{{ openstack_controller_host }} controller
+
+{% for host in groups['all'] %}
+{% if hostvars[host]['mgmt_ip'] is defined %}
+{{ hostvars[host]['mgmt_ip'] }} {{ hostvars[host]['host_name'] }}
+{% endif %}
+{% endfor %}
+
+{% if openstack_ceph_enable %}
+# ceph
+{% for host in groups['ceph'] %}
+{% if hostvars[host]['sp_ip'] %}
+{{ hostvars[host]['sp_ip'] }} {{ hostvars[host]['host_name'] }}
+{% endif %}
+{% endfor %}
+{% endif %}

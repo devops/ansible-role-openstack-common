@@ -1,0 +1,10 @@
+---
+- name: Configure ceph repo file.
+  template: src=ceph.repo.j2 dest=/etc/yum.repos.d/ceph.repo
+
+- name: Install ceph.
+  yum: name=ceph state=installed
+
+- name: Copy ceph configure file.
+  copy: src=fetch/{{ ceph_fsid }}/{{ groups['ceph-mon'][0] }}/etc/ceph/ceph.conf dest=/etc/ceph/ceph.conf
+
