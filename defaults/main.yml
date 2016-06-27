@@ -3,12 +3,3 @@
 
 openstack_repo_openstack: True
 openstack_repo_baseurl: "http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/"
-
-# ceph
-openstack_ceph_enable: "false"
-ceph_repo_baseurl: "http://download.ceph.com/rpm-firefly/el7/"
-ceph_fsid: "f2c79caa-af65-4055-ad5c-5a51bc762e70"
-openstack_keys:
-  - { name: glance, owner: "glance" }
-  - { name: cinder, owner: "cinder" }
-  - { name: cinder-backup, owner: "cinder" }
