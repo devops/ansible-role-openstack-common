@@ -2,4 +2,13 @@
 # defaults file for ansible-role-openstack-common
 
 openstack_repo_openstack: True
-openstack_repo_baseurl: "http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/"
+openstack_repos:
+  - name: centos-openstack-liberty
+    description: CentOS-7 - OpenStack liberty
+    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/
+    gpgcheck: no
+  - name: centos-openstack-liberty-test
+    description: CentOS-7 - OpenStack liberty Testing
+    baseurl: http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
+    gpgcheck: no
+    enabled: no
