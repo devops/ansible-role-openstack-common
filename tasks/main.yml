@@ -1,17 +1,21 @@
 ---
 # tasks file for ansible-role-openstack-common
 
-- name: Prepare repo files.
-  template: src=CentOS-OpenStack-liberty.repo.j2 dest=/etc/yum.repos.d/CentOS-OpenStack-liberty.repo
-  when: openstack_repo_openstack
-
-- name: Prepare the GPG key for openstack-liberty.
-  copy: src=RPM-GPG-KEY-CentOS-SIG-Cloud dest=/etc/pki/rpm-gpg
+- name: Setup repo.
+  yum_repository:
+    name: "{{ item.name }}"
+    description: "{{ item.description }}"
+    baseurl: "{{ item.baseurl }}"
+    gpgcheck: "{{ item.gpgcheck | default('no') }}"
+    enabled: "{{ item.enabled | default('yes') }}"
+    file: openstack
+  with_items:
+    - "{{ openstack_repos }}"
   when: openstack_repo_openstack
 
 - name: Prepare hosts file for name resolution.
   template: src=hosts.j2 dest=/etc/hosts
-  
+
 - name: Install OpenStack base packages.
   yum: name={{ item }} state=installed
   with_items:
@@ -36,7 +40,3 @@
   with_items:
     - iptables
     - network
-
-- name: enable ceph.
-  include: ceph.yml
-  when: openstack_ceph_enable

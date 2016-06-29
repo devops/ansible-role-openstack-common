@@ -10,12 +10,3 @@
 {{ hostvars[host]['mgmt_ip'] }} {{ hostvars[host]['host_name'] }}
 {% endif %}
 {% endfor %}
-
-{% if openstack_ceph_enable %}
-# ceph
-{% for host in groups['ceph'] %}
-{% if hostvars[host]['sp_ip'] %}
-{{ hostvars[host]['sp_ip'] }} {{ hostvars[host]['host_name'] }}
-{% endif %}
-{% endfor %}
-{% endif %}

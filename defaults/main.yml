@@ -2,13 +2,13 @@
 # defaults file for ansible-role-openstack-common
 
 openstack_repo_openstack: True
-openstack_repo_baseurl: "http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/"
-
-# ceph
-openstack_ceph_enable: "false"
-ceph_repo_baseurl: "http://download.ceph.com/rpm-firefly/el7/"
-ceph_fsid: "f2c79caa-af65-4055-ad5c-5a51bc762e70"
-openstack_keys:
-  - { name: glance, owner: "glance" }
-  - { name: cinder, owner: "cinder" }
-  - { name: cinder-backup, owner: "cinder" }
+openstack_repos:
+  - name: centos-openstack-liberty
+    description: CentOS-7 - OpenStack liberty
+    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/
+    gpgcheck: no
+  - name: centos-openstack-liberty-test
+    description: CentOS-7 - OpenStack liberty Testing
+    baseurl: http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
+    gpgcheck: no
+    enabled: no
