@@ -3,12 +3,12 @@
 
 openstack_repo_openstack: True
 openstack_repos:
-  - name: centos-openstack-liberty
-    description: CentOS-7 - OpenStack liberty
-    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-liberty/
+  - name: centos-openstack-mitaka
+    description: CentOS-7 - OpenStack mitaka
+    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-mitaka/
     gpgcheck: no
-  - name: centos-openstack-liberty-test
-    description: CentOS-7 - OpenStack liberty Testing
-    baseurl: http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-liberty/
+  - name: centos-openstack-mitaka-test
+    description: CentOS-7 - OpenStack mitaka Testing
+    baseurl: http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/
     gpgcheck: no
     enabled: no
