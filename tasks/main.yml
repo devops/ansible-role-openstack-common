@@ -23,6 +23,7 @@
     - openstack-selinux
     - iptables
     - iptables-services
+    - openstack-utils
 
 - name: Copy iptables configure.
   template: src=iptables.j2 dest=/etc/sysconfig/iptables
