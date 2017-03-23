@@ -4,14 +4,47 @@
 - name: Setup repo.
   yum_repository:
     name: "{{ item.name }}"
-    description: "{{ item.description }}"
+    description: "{{ item.description | default(item.name) }}"
     baseurl: "{{ item.baseurl }}"
     gpgcheck: "{{ item.gpgcheck | default('no') }}"
     enabled: "{{ item.enabled | default('yes') }}"
-    file: openstack
+    file: "CentOS-OpenStack-{{ openstack_release }}"
   with_items:
     - "{{ openstack_repos }}"
-  when: openstack_repo_openstack
+  when: openstack_repos
+
+- name: Install OpenStack repository.
+  yum:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+    - "centos-release-openstack-{{ openstack_release }}"
+  when: not openstack_repos
+
+- name: Upgrade the packages.
+  command: yum upgrade -y
+  register: upgrade
+  when: openstack_host_upgrade
+
+- name: Reboot system if required
+  command: shutdown -r now 'Rebooting to complete system upgrade'
+  async: 0
+  poll: 0
+  ignore_errors: True
+  when:
+    - openstack_host_upgrade
+    - upgrade.changed
+
+- name: Wait for Server to restart.
+  local_action:
+    module: wait_for
+      port=22
+      host="{{ ansible_ssh_host }}"
+      delay=10
+      timeout=900
+  when:
+    - openstack_host_upgrade
+    - upgrade.changed
 
 - name: Prepare hosts file for name resolution.
   template: src=hosts.j2 dest=/etc/hosts
@@ -24,9 +57,6 @@
     - iptables
     - iptables-services
     - openstack-utils
-
-- name: Copy iptables configure.
-  template: src=iptables.j2 dest=/etc/sysconfig/iptables
 
 - name: Ensure base service is stopped and disabled on boot.
   service: name={{ item }} enabled=no state=stopped
@@ -41,3 +71,8 @@
   with_items:
     - iptables
     - network
+
+- name: Configure Iptables
+  shell: |
+    iptables -I INPUT -s {{ openstack_internal_net }}/{{ openstack_internal_netmask }} -j ACCEPT
+    iptables-save > /etc/sysconfig/iptables

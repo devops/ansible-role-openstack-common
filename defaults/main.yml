@@ -1,14 +1,18 @@
 ---
 # defaults file for ansible-role-openstack-common
 
-openstack_repo_openstack: True
-openstack_repos:
-  - name: centos-openstack-mitaka
-    description: CentOS-7 - OpenStack mitaka
-    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-mitaka/
-    gpgcheck: no
-  - name: centos-openstack-mitaka-test
-    description: CentOS-7 - OpenStack mitaka Testing
-    baseurl: http://buildlogs.centos.org/centos/7/cloud/$basearch/openstack-mitaka/
-    gpgcheck: no
-    enabled: no
+openstack_release: mitaka
+openstack_repos: {}
+#  - name: centos-openstack-mitaka
+#    description: CentOS-7 - OpenStack mitaka
+#    baseurl: http://mirrors.aliyun.com/centos/7/cloud/$basearch/openstack-mitaka/
+#    gpgcheck: no
+#  - name: centos-ceph-hammer
+#    description: CentOS-$releasever - Ceph Hammer
+#    baseurl: http://mirrors.aliyun.com/centos/$releasever/storage/$basearch/ceph-hammer/
+#    gpgcheck: no
+#  - name: centos-qemu-ev
+#    description: CentOS-$releasever - QEMU EV
+#    baseurl: http://mirrors.aliyun.com/centos/$releasever/virt/$basearch/kvm-common/
+#    gpgcheck: no
+openstack_host_upgrade: True
